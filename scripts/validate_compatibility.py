@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
         # Configuración
         registry_url = "http://schema-registry:8081"
-        subject = "store-orders"
+        subject = "store-orders-value"
 
         # Obtener compatibilidad
         compatibilidad = obtener_compatibilidad(registry_url, subject)
