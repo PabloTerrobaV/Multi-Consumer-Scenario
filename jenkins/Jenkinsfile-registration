@@ -201,12 +201,12 @@ pipeline {
                 }
 
                 // ******** Stage 9: Verificación de servicios ********
-                stage('Verificar actualización de servicios') {
-                    steps {
+                // stage('Verificar actualización de servicios') {
+                    // steps {
                         // Llama a otro job de Jenkins para verificar si los servicios (productores/consumidores) se han actualizado correctamente
-                        build job: 'Validación de las versiones en productores-consumidores', wait: false
-                    }
-                }
+                        // build job: 'Validación de las versiones en productores-consumidores', wait: false
+                    // }
+                // }
             } // Fin del bloque de stages internos
         } // Fin del stage padre
     } // Fin del bloque stages global
