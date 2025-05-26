@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Variables compartidas
         SCHEMA_REGISTRY_URL = 'http://schema-registry:8081'
-        SUBJECT_NAME = 'store-orders'
+        SUBJECT_NAME = 'store-orders-value'
 
         // Configuración de red (ajustar según entorno)
         HOST_IP = "host.docker.internal"  // IP de los servicios

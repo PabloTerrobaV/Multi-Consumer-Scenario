@@ -6,7 +6,7 @@ pipeline {
         // URL del Schema Registry (accesible desde Jenkins en la red de Docker)
         SCHEMA_REGISTRY_URL = 'http://schema-registry:8081'
         // El subject que se usará para consultar la configuración de compatibilidad en Schema Registry
-        SUBJECT_NAME = 'store-orders'
+        SUBJECT_NAME = 'store-orders-value'
         // URL del repositorio Git donde se encuentra el esquema actualizado
         GITHUB_REPO_URL = 'https://github.com/PabloTerrobaV/Multi-Consumer-Scenario.git'
         // Rama del repositorio
