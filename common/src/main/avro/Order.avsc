@@ -40,7 +40,6 @@
           "type": "record",
           "name": "Item",
           "fields": [
-            { "name": "productId", "type": "int" },
             { "name": "productName", "type": "string" },
             { "name": "quantity", "type": ["null", "int"], "default": null },
             { "name": "price", "type": "float" }
