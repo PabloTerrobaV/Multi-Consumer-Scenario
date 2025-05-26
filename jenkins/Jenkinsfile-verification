@@ -19,7 +19,8 @@ pipeline {
                 // Ejecutar el stage si hay cambios en producer o consumer
                 anyOf {
                     changeset "producer/src/main/java/**"
-                    changeset "consumer/src/main/java/**"
+                    changeset "consumer1/src/main/java/**"
+                    changeset "consumer2/src/main/java/**"
                 }
             }
             steps {
