@@ -29,7 +29,7 @@ public class SchemaStatusController {
 
     public SchemaStatusController(@Value("${schema.registry.url}") String schemaRegistryUrl) {
         this.schemaRegistryClient = new CachedSchemaRegistryClient(schemaRegistryUrl, 1000);
-        this.subject = "store-orders"; // El subject en Schema Registry
+        this.subject = "store-orders-value"; // El subject en Schema Registry
     }
 
     @GetMapping

@@ -33,7 +33,7 @@ public class OrderConsumer1 {
         // props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://172.18.0.5:9092");
         // props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://host.docker.internal:9092");
         // props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://kafka:9092");
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "order-consumer-group");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "store-orders-consumer-group");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroDeserializer");
         props.put("schema.registry.url", "http://localhost:8081");
