@@ -25,6 +25,7 @@
         "type": "record",
         "name": "Address",
         "fields": [
+          { "name": "street", "type": ["null", "string"], "default": null },
           { "name": "city", "type": ["null", "string"], "default": null },
           { "name": "zipCode", "type": "string" },
           { "name": "country", "type": "string" }
