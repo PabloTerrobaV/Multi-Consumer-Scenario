@@ -25,8 +25,8 @@
         "type": "record",
         "name": "Address",
         "fields": [
-          { "name": "street", "type": "string" },
-          { "name": "city", "type": "string" },
+          { "name": "street", "type": ["null", "string"], "default": null },
+          { "name": "city", "type": ["null", "string"], "default": null },
           { "name": "zipCode", "type": "string" },
           { "name": "country", "type": "string" }
         ]
@@ -42,7 +42,7 @@
           "fields": [
             { "name": "productId", "type": "int" },
             { "name": "productName", "type": "string" },
-            { "name": "quantity", "type": "int" },
+            { "name": "quantity", "type": ["null", "int"], "default": null },
             { "name": "price", "type": "float" }
           ]
         }
