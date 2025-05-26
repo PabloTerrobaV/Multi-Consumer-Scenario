@@ -1,6 +1,208 @@
 #!/usr/bin/env python3
 import sys
 import requests
+from avro.schema import parse, RecordSchema
+
+def validar_metadatos(cambios_metadatos, compatibilidad):
+    errores = []
+    advertencias = []
+
+    # Reglas para 'name'
+    if 'name' in cambios_metadatos:
+        if compatibilidad != 'NONE':
+            errores.append("Cambio de 'name' requiere compatibilidad=NONE")
+        else:
+            advertencias.append("Cambio de 'name' detectado (usar aliases para compatibilidad)")
+
+    # Reglas para 'type'
+    if 'type' in cambios_metadatos:
+        errores.append("Cambio de 'type' es incompatible con cualquier modo de compatibilidad")
+
+    # Reglas para 'namespace'
+    if 'namespace' in cambios_metadatos:
+        advertencias.append("Cambio de 'namespace' puede afectar serialización (usar aliases)")
+
+    return errores, advertencias
+
+def obtener_compatibilidad(url_registry, subject):
+    try:
+        response = requests.get(f"{url_registry}/config/{subject}")
+        if response.status_code == 200:
+            return response.json()['compatibilityLevel'].upper()
+
+        response_global = requests.get(f"{url_registry}/config")
+        return response_global.json().get('compatibilityLevel', 'BACKWARD').upper()
+
+    except Exception as e:
+        print(f"⚠️ Error obteniendo compatibilidad: {e}")
+        return 'BACKWARD'
+
+def analizar_campos_recursivo(campos_ant, campos_nue, path=""):
+    """
+    Analiza campos y subcampos recursivamente y clasifica añadidos/eliminados obligatorios y opcionales.
+    path es el prefijo para los nombres de campo anidados, ejemplo: "user.address."
+    """
+    añadidos_obligatorios = []
+    añadidos_opcionales = []
+    eliminados_obligatorios = []
+    eliminados_opcionales = []
+
+    nombres_ant = set(campos_ant.keys())
+    nombres_nue = set(campos_nue.keys())
+
+    # Campos añadidos
+    for nombre in nombres_nue - nombres_ant:
+        campo = campos_nue[nombre]
+        nombre_completo = f"{path}{nombre}"
+        if campo.has_default:
+            añadidos_opcionales.append(nombre_completo)
+        else:
+            añadidos_obligatorios.append(nombre_completo)
+
+    # Campos eliminados
+    for nombre in nombres_ant - nombres_nue:
+        campo = campos_ant[nombre]
+        nombre_completo = f"{path}{nombre}"
+        if campo.has_default:
+            eliminados_opcionales.append(nombre_completo)
+        else:
+            eliminados_obligatorios.append(nombre_completo)
+
+    # Campos comunes: profundizar si son records (subcampos)
+    for nombre in nombres_ant & nombres_nue:
+        campo_ant = campos_ant[nombre]
+        campo_nue = campos_nue[nombre]
+
+        # Si son records, analizar sus campos recursivamente
+        if isinstance(campo_ant.type, RecordSchema) and isinstance(campo_nue.type, RecordSchema):
+            res = analizar_campos_recursivo(
+                {c.name: c for c in campo_ant.type.fields},
+                {c.name: c for c in campo_nue.type.fields},
+                path=f"{path}{nombre}."
+            )
+            añadidos_obligatorios.extend(res['añadidos_obligatorios'])
+            añadidos_opcionales.extend(res['añadidos_opcionales'])
+            eliminados_obligatorios.extend(res['eliminados_obligatorios'])
+            eliminados_opcionales.extend(res['eliminados_opcionales'])
+
+        # Podríamos agregar más validaciones para otros tipos complejos (arrays, maps, unions) si fuera necesario
+
+    return {
+        'añadidos_obligatorios': añadidos_obligatorios,
+        'añadidos_opcionales': añadidos_opcionales,
+        'eliminados_obligatorios': eliminados_obligatorios,
+        'eliminados_opcionales': eliminados_opcionales
+    }
+
+def validar_reglas_campos(cambios_campos, compatibilidad):
+    errores = []
+    sugerencias = []
+
+    if compatibilidad == 'BACKWARD':
+        # No se permiten añadir campos obligatorios
+        if cambios_campos['añadidos_obligatorios']:
+            errores.append(f"Añadidos campos obligatorios no permitidos: {cambios_campos['añadidos_obligatorios']}")
+            sugerencias.append("Para permitir añadir campos obligatorios, configure la compatibilidad como FORWARD o FULL")
+
+        # Eliminar campos obligatorios sí está permitido
+        # Añadir/eliminar campos opcionales está permitido
+
+    elif compatibilidad == 'FORWARD':
+        # No se permiten eliminar campos obligatorios
+        if cambios_campos['eliminados_obligatorios']:
+            errores.append(f"Eliminados campos obligatorios no permitidos: {cambios_campos['eliminados_obligatorios']}")
+            sugerencias.append("Para permitir eliminar campos obligatorios, configure la compatibilidad como BACKWARD o FULL")
+
+        # Añadir campos obligatorios sí está permitido
+        # Añadir/eliminar campos opcionales está permitido
+
+    elif compatibilidad == 'FULL':
+        # No se permiten añadir ni eliminar campos obligatorios
+        if cambios_campos['añadidos_obligatorios']:
+            errores.append(f"Añadidos campos obligatorios no permitidos: {cambios_campos['añadidos_obligatorios']}")
+            sugerencias.append("Compatibilidad FULL solo permite añadir/eliminar campos opcionales")
+
+        if cambios_campos['eliminados_obligatorios']:
+            errores.append(f"Eliminados campos obligatorios no permitidos: {cambios_campos['eliminados_obligatorios']}")
+            sugerencias.append("Compatibilidad FULL solo permite añadir/eliminar campos opcionales")
+
+        # Añadir/eliminar campos opcionales está permitido
+
+    else:
+        # Por defecto, si no se reconoce compatibilidad, no permitir cambios en campos obligatorios
+        if cambios_campos['añadidos_obligatorios'] or cambios_campos['eliminados_obligatorios']:
+            errores.append("Cambios en campos obligatorios no permitidos con compatibilidad desconocida")
+
+    return errores, sugerencias
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Uso: python validate_compatibility.py <esquema_ant> <esquema_nuevo>")
+        sys.exit(1)
+
+    try:
+        # Cargar esquemas
+        esquema_ant = parse(open(sys.argv[1]).read())
+        esquema_nuevo = parse(open(sys.argv[2]).read())
+
+        # Configuración
+        registry_url = "http://schema-registry:8081"
+        subject = "orders-value"
+
+        # Obtener compatibilidad
+        compatibilidad = obtener_compatibilidad(registry_url, subject)
+        print(f"🔍 Modo de compatibilidad actual: {compatibilidad}")
+
+        # Validar metadatos
+        cambios_metadatos = {
+            'type': (esquema_ant.type, esquema_nuevo.type),
+            'name': (esquema_ant.name, esquema_nuevo.name),
+            'namespace': (esquema_ant.namespace, esquema_nuevo.namespace),
+            'doc': (getattr(esquema_ant, 'doc', None), getattr(esquema_nuevo, 'doc', None))
+        }
+        cambios_metadatos = {k: v for k, v in cambios_metadatos.items() if v[0] != v[1]}
+
+        errores, advertencias = validar_metadatos(cambios_metadatos, compatibilidad)
+
+        # Validar campos y subcampos
+        cambios_campos = analizar_campos_recursivo(
+            {c.name: c for c in esquema_ant.fields},
+            {c.name: c for c in esquema_nuevo.fields},
+            path=""
+        )
+        errores_campos, sugerencias = validar_reglas_campos(cambios_campos, compatibilidad)
+
+        errores += errores_campos
+
+        # Resultados
+        if errores:
+            print("❌ Errores de compatibilidad:")
+            for e in errores:
+                print(f"  - {e}")
+            if sugerencias:
+                print("\n💡 Sugerencias:")
+                for s in sugerencias:
+                    print(f"  - {s}")
+            sys.exit(1)
+
+        if advertencias:
+            print("⚠️ Advertencias:")
+            for a in advertencias:
+                print(f"  - {a}")
+
+        print("✅ Validación completada exitosamente")
+        sys.exit(0)
+
+    except Exception as e:
+        print(f"❌ Error crítico: {e}")
+        sys.exit(1)
+
+
+'''
+#!/usr/bin/env python3
+import sys
+import requests
 from avro.schema import parse
 
 def validar_metadatos(cambios_metadatos, compatibilidad):
@@ -145,6 +347,8 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ Error crítico: {e}")
         sys.exit(1)
+
+'''
 
 '''
 #!/usr/bin/env python3
