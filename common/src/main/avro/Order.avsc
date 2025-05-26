@@ -15,7 +15,7 @@
         "fields": [
           { "name": "userId", "type": "string" },
           { "name": "name", "type": "string" },
-          { "name": "phone", "type": "long", "default": "" },
+          { "name": "phone", "type": ["null", "long"], "default": null },
           { "name": "email", "type": "string" }
         ]
       }
