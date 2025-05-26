@@ -1,0 +1,108 @@
+pipeline {
+    agent any  // Ejecuta en cualquier agente disponible
+
+    environment {
+        // Variables compartidas
+        SCHEMA_REGISTRY_URL = 'http://schema-registry:8081'
+        SUBJECT_NAME = 'store-orders'
+
+        // Configuración de red (ajustar según entorno)
+        HOST_IP = "host.docker.internal"  // IP de los servicios
+        PRODUCER_PORTS = "8090"           // Puertos de productores (separar por comas)
+        CONSUMER_PORTS = "8091, 8092"           // Puertos de consumidores (separar por comas)
+    }
+
+    stages {
+        // Stage único: solo se ejecuta si hay cambios en producer o consumer
+        stage('Verificar actualización de esquemas') {
+            when {
+                // Ejecutar el stage si hay cambios en producer o consumer
+                anyOf {
+                    changeset "producer/src/main/java/**"
+                    changeset "consumer/src/main/java/**"
+                }
+            }
+            steps {
+                echo 'Verificando que el grupo prioritario se haya actualizado...'
+                script {
+                    // Convertir los puertos a listas
+                    def producerPorts = PRODUCER_PORTS.split(',').collect { it.trim() }
+                    def consumerPorts = CONSUMER_PORTS.split(',').collect { it.trim() }
+
+                    // Obtener configuración de compatibilidad actual
+                    def compatibility = sh(
+                        script: "curl -s ${SCHEMA_REGISTRY_URL}/config/${SUBJECT_NAME} | jq -r '.compatibilityLevel'",
+                        returnStdout: true
+                    ).trim()
+                    echo "Compatibilidad detectada: ${compatibility}"
+
+                    // Determinar qué servicios verificar
+                    def portsToCheck = []
+                    def nextGroup = ""
+
+                    // BACKWARD: Consumidores deben actualizarse primero
+                    if (compatibility.startsWith("BACKWARD")) {
+                        portsToCheck = consumerPorts
+                        nextGroup = "productores"
+
+                    // FORWARD: Productores deben actualizarse primero
+                    } else if (compatibility.startsWith("FORWARD")) {
+                        portsToCheck = producerPorts
+                        nextGroup = "consumidores"
+
+                    // FULL: Ambos deben actualizarse juntos
+                    } else if (compatibility.startsWith("FULL")) {
+                        portsToCheck = consumerPorts + producerPorts
+                        nextGroup = null
+
+                    // Caso desconocido: Verificar todo
+                    } else {
+                        echo "Compatibilidad desconocida, se verifican todos los servicios..."
+                        portsToCheck = consumerPorts + producerPorts
+                        nextGroup = null
+                    }
+
+                    // Verificar cada servicio del grupo prioritario
+                    def allUpdated = true
+                    for (port in portsToCheck) {
+                        def response = sh(
+                            script: "curl -s http://${HOST_IP}:${port}/schema-status",
+                            returnStdout: true
+                        ).trim()
+                        echo "${HOST_IP}:${port} → $response"
+
+                        // Comprobar respuesta del endpoint
+                        if (!response.contains("Schema is up-to-date")) {
+                            echo "❌ El servicio en el puerto $port NO está actualizado"
+                            allUpdated = false
+                        }
+                    }
+
+                    // Manejo de errores si algún servicio falla
+                    // Si algún servicio falla, marcar el build como fallido
+                    if (!allUpdated) {
+                        error("Al menos un servicio del grupo prioritario tiene un esquema desactualizado.")
+                    }
+
+                    echo "✅ Todos los servicios del grupo prioritario están actualizados."
+
+                    // Notificar al grupo secundario si aplica
+                    if (nextGroup != null) {
+                        echo "🔔 Notificando al grupo secundario (${nextGroup}) para que proceda con la actualización..."
+                    } else {
+                        echo "🔔 No se requiere notificar a un grupo secundario; la actualización es conjunta."
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Verificación completada: todos los servicios prioritarios están actualizados."
+        }
+        failure {
+            echo "❌ Proceso de verificación fallido. Revisar los logs para más detalles."
+        }
+    }
+}
