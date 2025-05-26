@@ -16,7 +16,9 @@
           { "name": "userId", "type": "string" },
           { "name": "name", "type": "string" },
           { "name": "phone", "type": ["null", "long"], "default": null },
+          { "name": "dni", "type": "long" },
           { "name": "email", "type": "string" }
+
         ]
       }
     },
