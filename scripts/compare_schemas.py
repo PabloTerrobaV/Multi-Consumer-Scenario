@@ -1,3 +1,112 @@
+import json
+import sys
+
+def load_schema(file_path):
+    with open(file_path) as f:
+        return json.load(f)
+
+def field_dict(schema):
+    return {f["name"]: f for f in schema.get("fields", [])}
+
+def normalize_type(avro_type):
+    if isinstance(avro_type, list):
+        return avro_type
+    elif isinstance(avro_type, dict):
+        return avro_type
+    else:
+        return str(avro_type)
+
+def compare_fields(old_fields, new_fields, path=""):
+    added = []
+    removed = []
+    modified = []
+
+    old_names = set(old_fields)
+    new_names = set(new_fields)
+
+    for name in new_names - old_names:
+        added.append(path + name)
+
+    for name in old_names - new_names:
+        removed.append(path + name)
+
+    for name in old_names & new_names:
+        old_field = old_fields[name]
+        new_field = new_fields[name]
+        full_path = f"{path}{name}."
+
+        old_type = normalize_type(old_field["type"])
+        new_type = normalize_type(new_field["type"])
+
+        if old_type != new_type:
+            if isinstance(old_type, dict) and isinstance(new_type, dict):
+                if old_type.get("type") == "record" and new_type.get("type") == "record":
+                    # Recursively compare sub-records
+                    sub_old_fields = field_dict(old_type)
+                    sub_new_fields = field_dict(new_type)
+                    sub_added, sub_removed, sub_modified = compare_fields(sub_old_fields, sub_new_fields, full_path)
+                    added.extend(sub_added)
+                    removed.extend(sub_removed)
+                    modified.extend(sub_modified)
+                else:
+                    modified.append(f"{path}{name} (type changed: {old_type} -> {new_type})")
+            else:
+                modified.append(f"{path}{name} (type changed: {old_type} -> {new_type})")
+        else:
+            # Types are the same; compare default values
+            if old_field.get("default") != new_field.get("default"):
+                modified.append(f"{path}{name} (default changed: {old_field.get('default')} -> {new_field.get('default')})")
+
+            # If record type, compare subfields recursively
+            if isinstance(old_type, dict) and old_type.get("type") == "record":
+                sub_old_fields = field_dict(old_type)
+                sub_new_fields = field_dict(new_type)
+                sub_added, sub_removed, sub_modified = compare_fields(sub_old_fields, sub_new_fields, full_path)
+                added.extend(sub_added)
+                removed.extend(sub_removed)
+                modified.extend(sub_modified)
+
+    return added, removed, modified
+
+def main(old_schema_file, new_schema_file):
+    old_schema = load_schema(old_schema_file)
+    new_schema = load_schema(new_schema_file)
+
+    added, removed, modified = compare_fields(field_dict(old_schema), field_dict(new_schema))
+
+    if not (added or removed or modified):
+        print("✅ No differences found between schemas.")
+        return
+
+    print("📋 Schema differences detected:\n")
+
+    if added:
+        print(f"🟢 Added fields ({len(added)}):")
+        for field in added:
+            print(f"  + {field}")
+        print()
+
+    if removed:
+        print(f"🔴 Removed fields ({len(removed)}):")
+        for field in removed:
+            print(f"  - {field}")
+        print()
+
+    if modified:
+        print(f"🟡 Modified fields ({len(modified)}):")
+        for field in modified:
+            print(f"  * {field}")
+        print()
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python compare_avro_schemas.py old_schema.avsc new_schema.avsc")
+        sys.exit(1)
+
+    main(sys.argv[1], sys.argv[2])
+
+
+'''
 #!/usr/bin/env python3
 import json
 import sys
@@ -159,3 +268,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ Error: {e}", file=sys.stderr)
         sys.exit(1)
+'''
