@@ -102,7 +102,7 @@ def validar_reglas_campos(cambios_campos, compatibilidad):
         # No se permiten añadir campos obligatorios
         if cambios_campos['añadidos_obligatorios']:
             errores.append(f"Añadidos campos obligatorios no permitidos: {cambios_campos['añadidos_obligatorios']}")
-            sugerencias.append("Para permitir añadir campos obligatorios, configure la compatibilidad como FORWARD o FULL")
+            sugerencias.append("Para permitir añadir campos obligatorios, configure la compatibilidad como FORWARD")
 
         # Eliminar campos obligatorios sí está permitido
         # Añadir/eliminar campos opcionales está permitido
@@ -111,7 +111,7 @@ def validar_reglas_campos(cambios_campos, compatibilidad):
         # No se permiten eliminar campos obligatorios
         if cambios_campos['eliminados_obligatorios']:
             errores.append(f"Eliminados campos obligatorios no permitidos: {cambios_campos['eliminados_obligatorios']}")
-            sugerencias.append("Para permitir eliminar campos obligatorios, configure la compatibilidad como BACKWARD o FULL")
+            sugerencias.append("Para permitir eliminar campos obligatorios, configure la compatibilidad como BACKWARD")
 
         # Añadir campos obligatorios sí está permitido
         # Añadir/eliminar campos opcionales está permitido
