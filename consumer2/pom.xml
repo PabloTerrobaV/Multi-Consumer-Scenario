@@ -171,7 +171,7 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
                     <to>
-                        <image>consumer1:latest</image>
+                        <image>consumer2:latest</image>
                     </to>
                     <container>
                         <mainClass>com.example.kafka.consumer.OrderConsumer2</mainClass>
