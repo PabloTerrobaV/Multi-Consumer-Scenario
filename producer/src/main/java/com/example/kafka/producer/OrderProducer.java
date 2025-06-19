@@ -233,7 +233,7 @@ public class OrderProducer {
         UserInfo user = UserInfo.newBuilder()
                 .setUserId((String) fieldValues.get("user.userId"))
                 .setName((String) fieldValues.get("user.name"))
-                .setEmail((String) fieldValues.get("user.email"))
+                // .setEmail((String) fieldValues.get("user.email"))
                 .build();
 
         // Crear objeto Address
