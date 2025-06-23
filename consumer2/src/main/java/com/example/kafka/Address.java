@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Address extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -180607662543511380L;
+  private static final long serialVersionUID = 7670699862027977534L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"street\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"city\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"zipCode\",\"type\":\"string\"},{\"name\":\"country\",\"type\":\"string\",\"default\":\"España\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"street\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"city\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"zipCode\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -76,7 +76,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   private java.lang.CharSequence street;
   private java.lang.CharSequence city;
   private java.lang.CharSequence zipCode;
-  private java.lang.CharSequence country;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -90,13 +89,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
    * @param street The new value for street
    * @param city The new value for city
    * @param zipCode The new value for zipCode
-   * @param country The new value for country
    */
-  public Address(java.lang.CharSequence street, java.lang.CharSequence city, java.lang.CharSequence zipCode, java.lang.CharSequence country) {
+  public Address(java.lang.CharSequence street, java.lang.CharSequence city, java.lang.CharSequence zipCode) {
     this.street = street;
     this.city = city;
     this.zipCode = zipCode;
-    this.country = country;
   }
 
   @Override
@@ -112,7 +109,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
     case 0: return street;
     case 1: return city;
     case 2: return zipCode;
-    case 3: return country;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -125,7 +121,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
     case 0: street = (java.lang.CharSequence)value$; break;
     case 1: city = (java.lang.CharSequence)value$; break;
     case 2: zipCode = (java.lang.CharSequence)value$; break;
-    case 3: country = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -182,23 +177,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   }
 
   /**
-   * Gets the value of the 'country' field.
-   * @return The value of the 'country' field.
-   */
-  public java.lang.CharSequence getCountry() {
-    return country;
-  }
-
-
-  /**
-   * Sets the value of the 'country' field.
-   * @param value the value to set.
-   */
-  public void setCountry(java.lang.CharSequence value) {
-    this.country = value;
-  }
-
-  /**
    * Creates a new Address RecordBuilder.
    * @return A new Address RecordBuilder
    */
@@ -242,7 +220,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
     private java.lang.CharSequence street;
     private java.lang.CharSequence city;
     private java.lang.CharSequence zipCode;
-    private java.lang.CharSequence country;
 
     /** Creates a new Builder */
     private Builder() {
@@ -267,10 +244,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
         this.zipCode = data().deepCopy(fields()[2].schema(), other.zipCode);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.country)) {
-        this.country = data().deepCopy(fields()[3].schema(), other.country);
-        fieldSetFlags()[3] = other.fieldSetFlags()[3];
-      }
     }
 
     /**
@@ -290,10 +263,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       if (isValidValue(fields()[2], other.zipCode)) {
         this.zipCode = data().deepCopy(fields()[2].schema(), other.zipCode);
         fieldSetFlags()[2] = true;
-      }
-      if (isValidValue(fields()[3], other.country)) {
-        this.country = data().deepCopy(fields()[3].schema(), other.country);
-        fieldSetFlags()[3] = true;
       }
     }
 
@@ -417,46 +386,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       return this;
     }
 
-    /**
-      * Gets the value of the 'country' field.
-      * @return The value.
-      */
-    public java.lang.CharSequence getCountry() {
-      return country;
-    }
-
-
-    /**
-      * Sets the value of the 'country' field.
-      * @param value The value of 'country'.
-      * @return This builder.
-      */
-    public com.example.kafka.Address.Builder setCountry(java.lang.CharSequence value) {
-      validate(fields()[3], value);
-      this.country = value;
-      fieldSetFlags()[3] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'country' field has been set.
-      * @return True if the 'country' field has been set, false otherwise.
-      */
-    public boolean hasCountry() {
-      return fieldSetFlags()[3];
-    }
-
-
-    /**
-      * Clears the value of the 'country' field.
-      * @return This builder.
-      */
-    public com.example.kafka.Address.Builder clearCountry() {
-      country = null;
-      fieldSetFlags()[3] = false;
-      return this;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public Address build() {
@@ -465,7 +394,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
         record.street = fieldSetFlags()[0] ? this.street : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.city = fieldSetFlags()[1] ? this.city : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.zipCode = fieldSetFlags()[2] ? this.zipCode : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.country = fieldSetFlags()[3] ? this.country : (java.lang.CharSequence) defaultValue(fields()[3]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -516,8 +444,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
 
     out.writeString(this.zipCode);
 
-    out.writeString(this.country);
-
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -541,10 +467,8 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
 
       this.zipCode = in.readString(this.zipCode instanceof Utf8 ? (Utf8)this.zipCode : null);
 
-      this.country = in.readString(this.country instanceof Utf8 ? (Utf8)this.country : null);
-
     } else {
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < 3; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           if (in.readIndex() != 1) {
@@ -566,10 +490,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
 
         case 2:
           this.zipCode = in.readString(this.zipCode instanceof Utf8 ? (Utf8)this.zipCode : null);
-          break;
-
-        case 3:
-          this.country = in.readString(this.country instanceof Utf8 ? (Utf8)this.country : null);
           break;
 
         default:
