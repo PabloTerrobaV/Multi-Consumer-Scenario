@@ -234,6 +234,7 @@ public class OrderProducer {
                 .setUserId((String) fieldValues.get("user.userId"))
                 .setName((String) fieldValues.get("user.name"))
                 // .setEmail((String) fieldValues.get("user.email"))
+                .setPhone((Long) fieldValues.get("user.phone"))
                 .build();
 
         // Crear objeto Address
@@ -241,7 +242,7 @@ public class OrderProducer {
                 .setStreet((String) fieldValues.get("shippingAddress.street"))
                 .setCity((String) fieldValues.get("shippingAddress.city"))
                 .setZipCode((String) fieldValues.get("shippingAddress.zipCode"))
-                .setCountry((String) fieldValues.get("shippingAddress.country"))
+                //.setCountry((String) fieldValues.get("shippingAddress.country"))
                 .build();
 
         // Crear lista de Items
