@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -1824709563195217410L;
+  private static final long serialVersionUID = 1290602798670908513L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"email\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"email\",\"type\":[\"null\",\"string\"],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -430,7 +430,13 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
 
     out.writeString(this.name);
 
-    out.writeString(this.email);
+    if (this.email == null) {
+      out.writeIndex(0);
+      out.writeNull();
+    } else {
+      out.writeIndex(1);
+      out.writeString(this.email);
+    }
 
   }
 
@@ -443,7 +449,12 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
 
       this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
 
-      this.email = in.readString(this.email instanceof Utf8 ? (Utf8)this.email : null);
+      if (in.readIndex() != 1) {
+        in.readNull();
+        this.email = null;
+      } else {
+        this.email = in.readString(this.email instanceof Utf8 ? (Utf8)this.email : null);
+      }
 
     } else {
       for (int i = 0; i < 3; i++) {
@@ -457,7 +468,12 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
           break;
 
         case 2:
-          this.email = in.readString(this.email instanceof Utf8 ? (Utf8)this.email : null);
+          if (in.readIndex() != 1) {
+            in.readNull();
+            this.email = null;
+          } else {
+            this.email = in.readString(this.email instanceof Utf8 ? (Utf8)this.email : null);
+          }
           break;
 
         default:

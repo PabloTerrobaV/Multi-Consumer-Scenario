@@ -234,7 +234,7 @@ public class OrderProducer {
                 .setUserId((String) fieldValues.get("user.userId"))
                 .setName((String) fieldValues.get("user.name"))
                 .setEmail((String) fieldValues.get("user.email"))
-                .setPhone((Long) fieldValues.get("user.phone"))
+                // .setPhone((Long) fieldValues.get("user.phone"))
                 .build();
 
         // Crear objeto Address
