@@ -27,6 +27,7 @@
         "name": "Address",
         "fields": [
           { "name": "street", "type": ["null", "string"], "default": null },
+          { "name": "number", "type": ["null", "int"], "default": null },
           { "name": "city", "type": ["null", "string"], "default": null },
           { "name": "zipCode", "type": "string" }
         ]
