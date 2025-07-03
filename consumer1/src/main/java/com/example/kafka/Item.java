@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Item extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 4689584863258992889L;
+  private static final long serialVersionUID = 8379588773784436962L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Item\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"productId\",\"type\":\"int\"},{\"name\":\"productName\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":[\"null\",\"int\"],\"default\":null},{\"name\":\"discount\",\"type\":[\"null\",\"int\"],\"default\":null},{\"name\":\"price\",\"type\":\"float\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Item\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"productId\",\"type\":\"int\"},{\"name\":\"productName\",\"type\":\"string\"},{\"name\":\"quantity\",\"type\":[\"null\",\"int\"],\"default\":null},{\"name\":\"price\",\"type\":\"float\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -76,7 +76,6 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
   private int productId;
   private java.lang.CharSequence productName;
   private java.lang.Integer quantity;
-  private java.lang.Integer discount;
   private float price;
 
   /**
@@ -91,14 +90,12 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
    * @param productId The new value for productId
    * @param productName The new value for productName
    * @param quantity The new value for quantity
-   * @param discount The new value for discount
    * @param price The new value for price
    */
-  public Item(java.lang.Integer productId, java.lang.CharSequence productName, java.lang.Integer quantity, java.lang.Integer discount, java.lang.Float price) {
+  public Item(java.lang.Integer productId, java.lang.CharSequence productName, java.lang.Integer quantity, java.lang.Float price) {
     this.productId = productId;
     this.productName = productName;
     this.quantity = quantity;
-    this.discount = discount;
     this.price = price;
   }
 
@@ -115,8 +112,7 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
     case 0: return productId;
     case 1: return productName;
     case 2: return quantity;
-    case 3: return discount;
-    case 4: return price;
+    case 3: return price;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -129,8 +125,7 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
     case 0: productId = (java.lang.Integer)value$; break;
     case 1: productName = (java.lang.CharSequence)value$; break;
     case 2: quantity = (java.lang.Integer)value$; break;
-    case 3: discount = (java.lang.Integer)value$; break;
-    case 4: price = (java.lang.Float)value$; break;
+    case 3: price = (java.lang.Float)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -184,23 +179,6 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
    */
   public void setQuantity(java.lang.Integer value) {
     this.quantity = value;
-  }
-
-  /**
-   * Gets the value of the 'discount' field.
-   * @return The value of the 'discount' field.
-   */
-  public java.lang.Integer getDiscount() {
-    return discount;
-  }
-
-
-  /**
-   * Sets the value of the 'discount' field.
-   * @param value the value to set.
-   */
-  public void setDiscount(java.lang.Integer value) {
-    this.discount = value;
   }
 
   /**
@@ -264,7 +242,6 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
     private int productId;
     private java.lang.CharSequence productName;
     private java.lang.Integer quantity;
-    private java.lang.Integer discount;
     private float price;
 
     /** Creates a new Builder */
@@ -290,13 +267,9 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
         this.quantity = data().deepCopy(fields()[2].schema(), other.quantity);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.discount)) {
-        this.discount = data().deepCopy(fields()[3].schema(), other.discount);
+      if (isValidValue(fields()[3], other.price)) {
+        this.price = data().deepCopy(fields()[3].schema(), other.price);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
-      }
-      if (isValidValue(fields()[4], other.price)) {
-        this.price = data().deepCopy(fields()[4].schema(), other.price);
-        fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
     }
 
@@ -318,13 +291,9 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
         this.quantity = data().deepCopy(fields()[2].schema(), other.quantity);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.discount)) {
-        this.discount = data().deepCopy(fields()[3].schema(), other.discount);
+      if (isValidValue(fields()[3], other.price)) {
+        this.price = data().deepCopy(fields()[3].schema(), other.price);
         fieldSetFlags()[3] = true;
-      }
-      if (isValidValue(fields()[4], other.price)) {
-        this.price = data().deepCopy(fields()[4].schema(), other.price);
-        fieldSetFlags()[4] = true;
       }
     }
 
@@ -448,46 +417,6 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
     }
 
     /**
-      * Gets the value of the 'discount' field.
-      * @return The value.
-      */
-    public java.lang.Integer getDiscount() {
-      return discount;
-    }
-
-
-    /**
-      * Sets the value of the 'discount' field.
-      * @param value The value of 'discount'.
-      * @return This builder.
-      */
-    public com.example.kafka.Item.Builder setDiscount(java.lang.Integer value) {
-      validate(fields()[3], value);
-      this.discount = value;
-      fieldSetFlags()[3] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'discount' field has been set.
-      * @return True if the 'discount' field has been set, false otherwise.
-      */
-    public boolean hasDiscount() {
-      return fieldSetFlags()[3];
-    }
-
-
-    /**
-      * Clears the value of the 'discount' field.
-      * @return This builder.
-      */
-    public com.example.kafka.Item.Builder clearDiscount() {
-      discount = null;
-      fieldSetFlags()[3] = false;
-      return this;
-    }
-
-    /**
       * Gets the value of the 'price' field.
       * @return The value.
       */
@@ -502,9 +431,9 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
       * @return This builder.
       */
     public com.example.kafka.Item.Builder setPrice(float value) {
-      validate(fields()[4], value);
+      validate(fields()[3], value);
       this.price = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -513,7 +442,7 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
       * @return True if the 'price' field has been set, false otherwise.
       */
     public boolean hasPrice() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[3];
     }
 
 
@@ -522,7 +451,7 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
       * @return This builder.
       */
     public com.example.kafka.Item.Builder clearPrice() {
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -534,8 +463,7 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
         record.productId = fieldSetFlags()[0] ? this.productId : (java.lang.Integer) defaultValue(fields()[0]);
         record.productName = fieldSetFlags()[1] ? this.productName : (java.lang.CharSequence) defaultValue(fields()[1]);
         record.quantity = fieldSetFlags()[2] ? this.quantity : (java.lang.Integer) defaultValue(fields()[2]);
-        record.discount = fieldSetFlags()[3] ? this.discount : (java.lang.Integer) defaultValue(fields()[3]);
-        record.price = fieldSetFlags()[4] ? this.price : (java.lang.Float) defaultValue(fields()[4]);
+        record.price = fieldSetFlags()[3] ? this.price : (java.lang.Float) defaultValue(fields()[3]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -580,14 +508,6 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
       out.writeInt(this.quantity);
     }
 
-    if (this.discount == null) {
-      out.writeIndex(0);
-      out.writeNull();
-    } else {
-      out.writeIndex(1);
-      out.writeInt(this.discount);
-    }
-
     out.writeFloat(this.price);
 
   }
@@ -608,17 +528,10 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
         this.quantity = in.readInt();
       }
 
-      if (in.readIndex() != 1) {
-        in.readNull();
-        this.discount = null;
-      } else {
-        this.discount = in.readInt();
-      }
-
       this.price = in.readFloat();
 
     } else {
-      for (int i = 0; i < 5; i++) {
+      for (int i = 0; i < 4; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.productId = in.readInt();
@@ -638,15 +551,6 @@ public class Item extends org.apache.avro.specific.SpecificRecordBase implements
           break;
 
         case 3:
-          if (in.readIndex() != 1) {
-            in.readNull();
-            this.discount = null;
-          } else {
-            this.discount = in.readInt();
-          }
-          break;
-
-        case 4:
           this.price = in.readFloat();
           break;
 

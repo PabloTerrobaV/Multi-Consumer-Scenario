@@ -242,7 +242,7 @@ public class OrderProducer {
         Address address = Address.newBuilder()
                 .setStreet((String) fieldValues.get("shippingAddress.street"))
                 .setCity((String) fieldValues.get("shippingAddress.city"))
-                .setZipCode((String) fieldValues.get("shippingAddress.zipCode"))
+                //.setZipCode((String) fieldValues.get("shippingAddress.zipCode"))
                 //.setCountry((String) fieldValues.get("shippingAddress.country"))
                 .build();
 
