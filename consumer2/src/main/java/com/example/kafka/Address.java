@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class Address extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8224772041828419987L;
+  private static final long serialVersionUID = 7670699862027977534L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"street\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"number\",\"type\":[\"null\",\"int\"],\"default\":null},{\"name\":\"city\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"zipCode\",\"type\":\"string\"}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Address\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"street\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"city\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"zipCode\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -74,7 +74,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   }
 
   private java.lang.CharSequence street;
-  private java.lang.Integer number;
   private java.lang.CharSequence city;
   private java.lang.CharSequence zipCode;
 
@@ -88,13 +87,11 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   /**
    * All-args constructor.
    * @param street The new value for street
-   * @param number The new value for number
    * @param city The new value for city
    * @param zipCode The new value for zipCode
    */
-  public Address(java.lang.CharSequence street, java.lang.Integer number, java.lang.CharSequence city, java.lang.CharSequence zipCode) {
+  public Address(java.lang.CharSequence street, java.lang.CharSequence city, java.lang.CharSequence zipCode) {
     this.street = street;
-    this.number = number;
     this.city = city;
     this.zipCode = zipCode;
   }
@@ -110,9 +107,8 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return street;
-    case 1: return number;
-    case 2: return city;
-    case 3: return zipCode;
+    case 1: return city;
+    case 2: return zipCode;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -123,9 +119,8 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: street = (java.lang.CharSequence)value$; break;
-    case 1: number = (java.lang.Integer)value$; break;
-    case 2: city = (java.lang.CharSequence)value$; break;
-    case 3: zipCode = (java.lang.CharSequence)value$; break;
+    case 1: city = (java.lang.CharSequence)value$; break;
+    case 2: zipCode = (java.lang.CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -145,23 +140,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
    */
   public void setStreet(java.lang.CharSequence value) {
     this.street = value;
-  }
-
-  /**
-   * Gets the value of the 'number' field.
-   * @return The value of the 'number' field.
-   */
-  public java.lang.Integer getNumber() {
-    return number;
-  }
-
-
-  /**
-   * Sets the value of the 'number' field.
-   * @param value the value to set.
-   */
-  public void setNumber(java.lang.Integer value) {
-    this.number = value;
   }
 
   /**
@@ -240,7 +218,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
     implements org.apache.avro.data.RecordBuilder<Address> {
 
     private java.lang.CharSequence street;
-    private java.lang.Integer number;
     private java.lang.CharSequence city;
     private java.lang.CharSequence zipCode;
 
@@ -259,17 +236,13 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
         this.street = data().deepCopy(fields()[0].schema(), other.street);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.number)) {
-        this.number = data().deepCopy(fields()[1].schema(), other.number);
+      if (isValidValue(fields()[1], other.city)) {
+        this.city = data().deepCopy(fields()[1].schema(), other.city);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.city)) {
-        this.city = data().deepCopy(fields()[2].schema(), other.city);
+      if (isValidValue(fields()[2], other.zipCode)) {
+        this.zipCode = data().deepCopy(fields()[2].schema(), other.zipCode);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
-      }
-      if (isValidValue(fields()[3], other.zipCode)) {
-        this.zipCode = data().deepCopy(fields()[3].schema(), other.zipCode);
-        fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
     }
 
@@ -283,17 +256,13 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
         this.street = data().deepCopy(fields()[0].schema(), other.street);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.number)) {
-        this.number = data().deepCopy(fields()[1].schema(), other.number);
+      if (isValidValue(fields()[1], other.city)) {
+        this.city = data().deepCopy(fields()[1].schema(), other.city);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.city)) {
-        this.city = data().deepCopy(fields()[2].schema(), other.city);
+      if (isValidValue(fields()[2], other.zipCode)) {
+        this.zipCode = data().deepCopy(fields()[2].schema(), other.zipCode);
         fieldSetFlags()[2] = true;
-      }
-      if (isValidValue(fields()[3], other.zipCode)) {
-        this.zipCode = data().deepCopy(fields()[3].schema(), other.zipCode);
-        fieldSetFlags()[3] = true;
       }
     }
 
@@ -338,46 +307,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
     }
 
     /**
-      * Gets the value of the 'number' field.
-      * @return The value.
-      */
-    public java.lang.Integer getNumber() {
-      return number;
-    }
-
-
-    /**
-      * Sets the value of the 'number' field.
-      * @param value The value of 'number'.
-      * @return This builder.
-      */
-    public com.example.kafka.Address.Builder setNumber(java.lang.Integer value) {
-      validate(fields()[1], value);
-      this.number = value;
-      fieldSetFlags()[1] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'number' field has been set.
-      * @return True if the 'number' field has been set, false otherwise.
-      */
-    public boolean hasNumber() {
-      return fieldSetFlags()[1];
-    }
-
-
-    /**
-      * Clears the value of the 'number' field.
-      * @return This builder.
-      */
-    public com.example.kafka.Address.Builder clearNumber() {
-      number = null;
-      fieldSetFlags()[1] = false;
-      return this;
-    }
-
-    /**
       * Gets the value of the 'city' field.
       * @return The value.
       */
@@ -392,9 +321,9 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * @return This builder.
       */
     public com.example.kafka.Address.Builder setCity(java.lang.CharSequence value) {
-      validate(fields()[2], value);
+      validate(fields()[1], value);
       this.city = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[1] = true;
       return this;
     }
 
@@ -403,7 +332,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * @return True if the 'city' field has been set, false otherwise.
       */
     public boolean hasCity() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[1];
     }
 
 
@@ -413,7 +342,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       */
     public com.example.kafka.Address.Builder clearCity() {
       city = null;
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[1] = false;
       return this;
     }
 
@@ -432,9 +361,9 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * @return This builder.
       */
     public com.example.kafka.Address.Builder setZipCode(java.lang.CharSequence value) {
-      validate(fields()[3], value);
+      validate(fields()[2], value);
       this.zipCode = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[2] = true;
       return this;
     }
 
@@ -443,7 +372,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       * @return True if the 'zipCode' field has been set, false otherwise.
       */
     public boolean hasZipCode() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[2];
     }
 
 
@@ -453,7 +382,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       */
     public com.example.kafka.Address.Builder clearZipCode() {
       zipCode = null;
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -463,9 +392,8 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       try {
         Address record = new Address();
         record.street = fieldSetFlags()[0] ? this.street : (java.lang.CharSequence) defaultValue(fields()[0]);
-        record.number = fieldSetFlags()[1] ? this.number : (java.lang.Integer) defaultValue(fields()[1]);
-        record.city = fieldSetFlags()[2] ? this.city : (java.lang.CharSequence) defaultValue(fields()[2]);
-        record.zipCode = fieldSetFlags()[3] ? this.zipCode : (java.lang.CharSequence) defaultValue(fields()[3]);
+        record.city = fieldSetFlags()[1] ? this.city : (java.lang.CharSequence) defaultValue(fields()[1]);
+        record.zipCode = fieldSetFlags()[2] ? this.zipCode : (java.lang.CharSequence) defaultValue(fields()[2]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -506,14 +434,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       out.writeString(this.street);
     }
 
-    if (this.number == null) {
-      out.writeIndex(0);
-      out.writeNull();
-    } else {
-      out.writeIndex(1);
-      out.writeInt(this.number);
-    }
-
     if (this.city == null) {
       out.writeIndex(0);
       out.writeNull();
@@ -540,13 +460,6 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
 
       if (in.readIndex() != 1) {
         in.readNull();
-        this.number = null;
-      } else {
-        this.number = in.readInt();
-      }
-
-      if (in.readIndex() != 1) {
-        in.readNull();
         this.city = null;
       } else {
         this.city = in.readString(this.city instanceof Utf8 ? (Utf8)this.city : null);
@@ -555,7 +468,7 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
       this.zipCode = in.readString(this.zipCode instanceof Utf8 ? (Utf8)this.zipCode : null);
 
     } else {
-      for (int i = 0; i < 4; i++) {
+      for (int i = 0; i < 3; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           if (in.readIndex() != 1) {
@@ -569,22 +482,13 @@ public class Address extends org.apache.avro.specific.SpecificRecordBase impleme
         case 1:
           if (in.readIndex() != 1) {
             in.readNull();
-            this.number = null;
-          } else {
-            this.number = in.readInt();
-          }
-          break;
-
-        case 2:
-          if (in.readIndex() != 1) {
-            in.readNull();
             this.city = null;
           } else {
             this.city = in.readString(this.city instanceof Utf8 ? (Utf8)this.city : null);
           }
           break;
 
-        case 3:
+        case 2:
           this.zipCode = in.readString(this.zipCode instanceof Utf8 ? (Utf8)this.zipCode : null);
           break;
 
