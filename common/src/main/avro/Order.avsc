@@ -15,8 +15,7 @@
         "fields": [
           { "name": "userId", "type": "string" },
           { "name": "name", "type": "string" },
-          { "name": "email", "type": "string"},
-          { "name": "phone", "type": ["null", "long"], "default": null }
+          { "name": "email", "type": "string"}
         ]
       }
     },
@@ -27,7 +26,6 @@
         "name": "Address",
         "fields": [
           { "name": "street", "type": ["null", "string"], "default": null },
-          { "name": "number", "type": ["null", "int"], "default": null },
           { "name": "city", "type": ["null", "string"], "default": null },
           { "name": "zipCode", "type": "string" }
         ]
