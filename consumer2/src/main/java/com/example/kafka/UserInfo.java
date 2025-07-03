@@ -14,10 +14,10 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -8584500057807125700L;
+  private static final long serialVersionUID = 1912686035678466734L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"phone\",\"type\":[\"null\",\"long\"],\"default\":null}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"UserInfo\",\"namespace\":\"com.example.kafka\",\"fields\":[{\"name\":\"userId\",\"type\":\"string\"},{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"email\",\"type\":\"string\"},{\"name\":\"phone\",\"type\":[\"null\",\"long\"],\"default\":null}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
@@ -75,6 +75,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
 
   private java.lang.CharSequence userId;
   private java.lang.CharSequence name;
+  private java.lang.CharSequence email;
   private java.lang.Long phone;
 
   /**
@@ -88,11 +89,13 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    * All-args constructor.
    * @param userId The new value for userId
    * @param name The new value for name
+   * @param email The new value for email
    * @param phone The new value for phone
    */
-  public UserInfo(java.lang.CharSequence userId, java.lang.CharSequence name, java.lang.Long phone) {
+  public UserInfo(java.lang.CharSequence userId, java.lang.CharSequence name, java.lang.CharSequence email, java.lang.Long phone) {
     this.userId = userId;
     this.name = name;
+    this.email = email;
     this.phone = phone;
   }
 
@@ -108,7 +111,8 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
     switch (field$) {
     case 0: return userId;
     case 1: return name;
-    case 2: return phone;
+    case 2: return email;
+    case 3: return phone;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -120,7 +124,8 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
     switch (field$) {
     case 0: userId = (java.lang.CharSequence)value$; break;
     case 1: name = (java.lang.CharSequence)value$; break;
-    case 2: phone = (java.lang.Long)value$; break;
+    case 2: email = (java.lang.CharSequence)value$; break;
+    case 3: phone = (java.lang.Long)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -157,6 +162,23 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
    */
   public void setName(java.lang.CharSequence value) {
     this.name = value;
+  }
+
+  /**
+   * Gets the value of the 'email' field.
+   * @return The value of the 'email' field.
+   */
+  public java.lang.CharSequence getEmail() {
+    return email;
+  }
+
+
+  /**
+   * Sets the value of the 'email' field.
+   * @param value the value to set.
+   */
+  public void setEmail(java.lang.CharSequence value) {
+    this.email = value;
   }
 
   /**
@@ -219,6 +241,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
 
     private java.lang.CharSequence userId;
     private java.lang.CharSequence name;
+    private java.lang.CharSequence email;
     private java.lang.Long phone;
 
     /** Creates a new Builder */
@@ -240,9 +263,13 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
         this.name = data().deepCopy(fields()[1].schema(), other.name);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.phone)) {
-        this.phone = data().deepCopy(fields()[2].schema(), other.phone);
+      if (isValidValue(fields()[2], other.email)) {
+        this.email = data().deepCopy(fields()[2].schema(), other.email);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
+      }
+      if (isValidValue(fields()[3], other.phone)) {
+        this.phone = data().deepCopy(fields()[3].schema(), other.phone);
+        fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
     }
 
@@ -260,9 +287,13 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
         this.name = data().deepCopy(fields()[1].schema(), other.name);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.phone)) {
-        this.phone = data().deepCopy(fields()[2].schema(), other.phone);
+      if (isValidValue(fields()[2], other.email)) {
+        this.email = data().deepCopy(fields()[2].schema(), other.email);
         fieldSetFlags()[2] = true;
+      }
+      if (isValidValue(fields()[3], other.phone)) {
+        this.phone = data().deepCopy(fields()[3].schema(), other.phone);
+        fieldSetFlags()[3] = true;
       }
     }
 
@@ -347,6 +378,46 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
     }
 
     /**
+      * Gets the value of the 'email' field.
+      * @return The value.
+      */
+    public java.lang.CharSequence getEmail() {
+      return email;
+    }
+
+
+    /**
+      * Sets the value of the 'email' field.
+      * @param value The value of 'email'.
+      * @return This builder.
+      */
+    public com.example.kafka.UserInfo.Builder setEmail(java.lang.CharSequence value) {
+      validate(fields()[2], value);
+      this.email = value;
+      fieldSetFlags()[2] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'email' field has been set.
+      * @return True if the 'email' field has been set, false otherwise.
+      */
+    public boolean hasEmail() {
+      return fieldSetFlags()[2];
+    }
+
+
+    /**
+      * Clears the value of the 'email' field.
+      * @return This builder.
+      */
+    public com.example.kafka.UserInfo.Builder clearEmail() {
+      email = null;
+      fieldSetFlags()[2] = false;
+      return this;
+    }
+
+    /**
       * Gets the value of the 'phone' field.
       * @return The value.
       */
@@ -361,9 +432,9 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       * @return This builder.
       */
     public com.example.kafka.UserInfo.Builder setPhone(java.lang.Long value) {
-      validate(fields()[2], value);
+      validate(fields()[3], value);
       this.phone = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -372,7 +443,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       * @return True if the 'phone' field has been set, false otherwise.
       */
     public boolean hasPhone() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[3];
     }
 
 
@@ -382,7 +453,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       */
     public com.example.kafka.UserInfo.Builder clearPhone() {
       phone = null;
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -393,7 +464,8 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
         UserInfo record = new UserInfo();
         record.userId = fieldSetFlags()[0] ? this.userId : (java.lang.CharSequence) defaultValue(fields()[0]);
         record.name = fieldSetFlags()[1] ? this.name : (java.lang.CharSequence) defaultValue(fields()[1]);
-        record.phone = fieldSetFlags()[2] ? this.phone : (java.lang.Long) defaultValue(fields()[2]);
+        record.email = fieldSetFlags()[2] ? this.email : (java.lang.CharSequence) defaultValue(fields()[2]);
+        record.phone = fieldSetFlags()[3] ? this.phone : (java.lang.Long) defaultValue(fields()[3]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -430,6 +502,8 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
 
     out.writeString(this.name);
 
+    out.writeString(this.email);
+
     if (this.phone == null) {
       out.writeIndex(0);
       out.writeNull();
@@ -449,6 +523,8 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
 
       this.name = in.readString(this.name instanceof Utf8 ? (Utf8)this.name : null);
 
+      this.email = in.readString(this.email instanceof Utf8 ? (Utf8)this.email : null);
+
       if (in.readIndex() != 1) {
         in.readNull();
         this.phone = null;
@@ -457,7 +533,7 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
       }
 
     } else {
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 4; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.userId = in.readString(this.userId instanceof Utf8 ? (Utf8)this.userId : null);
@@ -468,6 +544,10 @@ public class UserInfo extends org.apache.avro.specific.SpecificRecordBase implem
           break;
 
         case 2:
+          this.email = in.readString(this.email instanceof Utf8 ? (Utf8)this.email : null);
+          break;
+
+        case 3:
           if (in.readIndex() != 1) {
             in.readNull();
             this.phone = null;
