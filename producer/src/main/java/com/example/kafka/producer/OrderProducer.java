@@ -22,7 +22,8 @@ import java.util.*;
  * Permite al usuario introducir datos por consola que se mapean a un objeto Avro del tipo `Order`
  * (con subcampos y listas), y luego se envían al topic de Kafka correspondiente.
  */
-@SpringBootApplication
+// @SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.example.kafka.controllers"})
 public class OrderProducer {
 
     // Nombre del topic de Kafka al que se enviarán los mensajes
