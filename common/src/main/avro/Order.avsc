@@ -16,7 +16,8 @@
           { "name": "userId", "type": "string" },
           { "name": "name", "type": "string" },
           { "name": "email", "type": ["null", "string"], "default": null },
-          { "name": "phone", "type": "long" }
+          { "name": "phone", "type": "long" },
+          { "name": "dni", "type": "long" }
         ]
       }
     },
@@ -27,7 +28,8 @@
         "name": "Address",
         "fields": [
           { "name": "street", "type": ["null", "string"], "default": null },
-          { "name": "city", "type": ["null", "string"], "default": null }
+          { "name": "city", "type": ["null", "string"], "default": null },
+          { "name": "zipCode", "type": "int" }
         ]
       }
     },
